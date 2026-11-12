@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb">
+  <title>Calculadora RLC | Analisis fasorial</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Calculadora RLC, inicio">
+      <span class="brand-mark" aria-hidden="true">∿</span>
+      <span>Fasor<span class="brand-light">Lab</span></span>
+    </a>
+    <span class="topbar-note">Analisis de circuitos de corriente alterna</span>
+  </header>
+
+  <main class="layout">
+    <section class="intro">
+      <p class="eyebrow">LABORATORIO DE ELECTRICIDAD</p>
+      <h1>Calculadora <span>R-L-C</span></h1>
+      <p class="intro-copy">Configura un circuito serie o paralelo y consulta tensiones y corrientes en forma rectangular y polar.</p>
+    </section>
+
+    <div class="workspace">
+      <section class="panel input-panel" aria-labelledby="form-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">CONFIGURACION</p>
+            <h2 id="form-title">Parametros del circuito</h2>
+          </div>
+          <span class="step-badge">01</span>
+        </div>
+
+        <form id="circuit-form">
+          <fieldset class="topology-field">
+            <legend>Topologia</legend>
+            <div class="topology-options">
+              <label class="topology-option">
+                <input type="radio" name="topologia" value="serie" checked>
+                <span class="radio-card"><span class="topology-symbol" aria-hidden="true">R—L—C</span><strong>Serie</strong><small>Un solo camino</small></span>
+              </label>
+              <label class="topology-option">
+                <input type="radio" name="topologia" value="paralelo">
+                <span class="radio-card"><span class="topology-symbol" aria-hidden="true">R ∥ L ∥ C</span><strong>Paralelo</strong><small>Ramas independientes</small></span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="field-grid">
+            <label class="field">
+              <span>Resistencia <span class="symbol">R</span></span>
+              <span class="input-wrap"><input name="resistencia" type="number" min="0.000001" step="any" value="100" required><span>Ω</span></span>
+            </label>
+            <label class="field">
+              <span>Inductancia <span class="symbol">L</span></span>
+              <span class="input-wrap"><input name="inductancia" type="number" min="0.000001" step="any" value="0.1" required><span>H</span></span>
+            </label>
+            <label class="field">
+              <span>Capacitancia <span class="symbol">C</span></span>
+              <span class="input-wrap"><input name="capacitancia" type="number" min="0.000001" step="any" value="0.0001" required><span>F</span></span>
+            </label>
+            <label class="field">
+              <span>Frecuencia <span class="symbol">f</span></span>
+              <span class="input-wrap"><input name="frecuencia" type="number" min="0.000001" step="any" value="50" required><span>Hz</span></span>
+            </label>
+          </div>
+
+          <div class="divider"></div>
+          <p class="section-label">Fuente de tension <span>VALOR EFICAZ (RMS)</span></p>
+          <div class="source-grid">
+            <label class="field">
+              <span>Magnitud</span>
+              <span class="input-wrap"><input name="tension" type="number" min="0.000001" step="any" value="120" required><span>V</span></span>
+            </label>
+            <label class="field">
+              <span>Angulo de fase</span>
+              <span class="input-wrap"><input name="angulo" type="number" step="any" value="0" required><span>°</span></span>
+            </label>
+          </div>
+          <p class="field-hint">Ingresa la capacitancia en faradios (F), por ejemplo 0.0001 F = 100 μF.</p>
+          <button class="calculate-button" type="submit"><span aria-hidden="true">↗</span> Calcular circuito</button>
+          <p id="form-error" class="form-error" role="alert" hidden></p>
+        </form>
+      </section>
+
+      <section class="panel results-panel" aria-labelledby="results-title" aria-live="polite">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">ANALISIS FASORIAL</p>
+            <h2 id="results-title">Resultados</h2>
+          </div>
+          <span id="result-status" class="status-pill">EN ESPERA</span>
+        </div>
+        <div id="empty-state" class="empty-state">
+          <span class="empty-icon" aria-hidden="true">∠</span>
+          <h3>Listo para analizar</h3>
+          <p>Ingresa los valores del circuito y calcula para ver sus fasores.</p>
+        </div>
+        <div id="results" hidden></div>
+      </section>
+    </div>
+
+    <section class="panel history-panel" aria-labelledby="history-title">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">PERSISTENCIA MYSQL</p>
+          <h2 id="history-title">Calculos recientes</h2>
+        </div>
+        <button id="refresh-history" class="text-button" type="button">Actualizar historial <span aria-hidden="true">↻</span></button>
+      </div>
+      <div id="history-content" class="history-content"><p class="history-message">Cargando historial...</p></div>
+    </section>
+
+    <footer>Valores eficaces RMS · Fasores en grados · Convencion pasiva de signos</footer>
+  </main>
+</body>
+</html>
